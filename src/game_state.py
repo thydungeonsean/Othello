@@ -11,6 +11,7 @@ class Game(object):
 
         # game state members
         self.game_running = False
+        self.needs_redraw = True
         self.screen = None
         self.clock = pygame.time.Clock()
 
@@ -34,8 +35,10 @@ class Game(object):
 
             self.handle_input()
             self.run_logic()
-            self.draw_all()
-            self.update_display()
+            if self.needs_redraw:
+                self.draw_all()
+                self.update_display()
+                self.reset_redraw()
             self.tick()
 
         pygame.quit()
@@ -61,6 +64,12 @@ class Game(object):
 
     def update_display(self):
         pygame.display.update()
+
+    def request_redraw(self):
+        self.needs_redraw = True
+
+    def reset_redraw(self):
+        self.needs_redraw = False
 
     def tick(self):
         self.clock.tick(FPS)
