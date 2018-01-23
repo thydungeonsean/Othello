@@ -41,6 +41,7 @@ class Game(object):
 
         # initialize game components
         self.game_board = GameBoard(self, self.game_grid)
+        self.highlighter.init()
 
     # main game loop
     def main(self):

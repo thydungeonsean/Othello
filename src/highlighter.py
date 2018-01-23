@@ -7,7 +7,13 @@ class Highlighter(object):
 
     def __init__(self, state):
         self.state = state
+        self.highlight = None
         self.rect = pygame.Rect((0, 0), (TILE_WIDTH, TILE_WIDTH))
+
+    def init(self):
+        self.highlight = pygame.Surface((TILE_WIDTH, TILE_WIDTH)).convert()
+        self.highlight.fill(YELLOW)
+        self.highlight.set_alpha(75)
 
     def draw(self, surface):
 
@@ -17,4 +23,5 @@ class Highlighter(object):
     def highlight_cell(self, surface, (x, y)):
 
         self.rect.topleft = x * TILE_WIDTH, y * TILE_WIDTH + BOARD_Y_OFFSET
-        pygame.draw.rect(surface, YELLOW, self.rect, 2)
+        #pygame.draw.rect(surface, YELLOW, self.rect, 2)
+        surface.blit(self.highlight, self.rect)
