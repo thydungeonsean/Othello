@@ -1,6 +1,7 @@
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+YELLOW = (255, 200, 0)
 
 BOARD_COLOR_LIGHT = (100, 200, 100)  # a soothing green board
 BOARD_COLOR_DARK = (50, 100, 50)

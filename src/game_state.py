@@ -8,6 +8,7 @@ from game_grid import GameGrid
 from game_board import GameBoard
 from player import Player
 from turn_manager import TurnManager
+from highlighter import Highlighter
 
 
 class Game(object):
@@ -27,6 +28,7 @@ class Game(object):
         self.white_player = Player(self, 'white')
         self.black_player = Player(self, 'black')
         self.turn_manager = TurnManager(self)
+        self.highlighter = Highlighter(self)
 
     def init(self):
         pygame.init()
@@ -37,8 +39,6 @@ class Game(object):
 
         # initialize game components
         self.game_board = GameBoard(self, self.game_grid)
-
-        self.game_logic.calculate_valid_moves(WHITE_PIECE)
 
     # main game loop
     def main(self):
@@ -85,10 +85,11 @@ class Game(object):
         self.game_running = False
 
     def run_logic(self):
-        pass
+        self.turn_manager.run()
 
     def draw_all(self):
         self.game_board.draw(self.screen)
+        self.highlighter.draw(self.screen)
 
     def update_display(self):
         pygame.display.update()
