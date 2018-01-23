@@ -1,5 +1,6 @@
 from game_settings import *
 
+
 class TurnManager(object):
 
     def __init__(self, state):

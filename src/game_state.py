@@ -9,6 +9,7 @@ from game_board import GameBoard
 from player import Player
 from turn_manager import TurnManager
 from highlighter import Highlighter
+from logger import Logger
 
 
 class Game(object):
@@ -29,6 +30,7 @@ class Game(object):
         self.black_player = Player(self, 'black')
         self.turn_manager = TurnManager(self)
         self.highlighter = Highlighter(self)
+        self.logger = Logger(self)
 
     def init(self):
         pygame.init()
@@ -90,6 +92,8 @@ class Game(object):
     def draw_all(self):
         self.game_board.draw(self.screen)
         self.highlighter.draw(self.screen)
+        self.logger.draw_scores(self.screen)
+        self.logger.draw_log(self.screen)
 
     def update_display(self):
         pygame.display.update()
@@ -102,3 +106,9 @@ class Game(object):
 
     def tick(self):
         self.clock.tick(FPS)
+
+    def black_score(self):
+        return self.game_grid.get_score(BLACK_PIECE)
+
+    def white_score(self):
+        return self.game_grid.get_score(WHITE_PIECE)

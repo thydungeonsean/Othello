@@ -48,3 +48,12 @@ class GameGrid(object):
         adj = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1),
                (x + 1, y + 1), (x - 1, y + 1), (x + 1, y - 1), (x - 1, y - 1)]
         return filter(lambda cell: self.on_grid(cell), adj)
+
+    def get_score(self, piece):
+
+        count = 0
+        for x, y in self.all_cells:
+            if self.get_cell((x, y)) == piece:
+                count += 1
+
+        return str(count)
