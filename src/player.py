@@ -5,6 +5,7 @@ from game_settings import *
 class Player(object):
 
     piece_code_dict = {'white': WHITE_PIECE, 'black': BLACK_PIECE}
+    opposite_side = {WHITE_PIECE: BLACK_PIECE, BLACK_PIECE: WHITE_PIECE}
 
     def __init__(self, state, color):
 
@@ -20,6 +21,10 @@ class Player(object):
     def game_piece(self):
         return Player.piece_code_dict[self.color]
 
+    @property
+    def opposed_piece(self):
+        return Player.opposite_side[self.game_piece]
+
     def play_piece(self, cell):
         self.game_grid.update_cell(cell, self.game_piece)
 
@@ -28,6 +33,7 @@ class Player(object):
             self.play_piece(cell)
             self.trigger_flank(cell)
             # end turn
+            self.state.turn_manager.end_turn()
 
     def placement_is_valid(self, cell):
         # return self.state.game_logic.placement_is_valid_for_color(cell, self.game_piece)

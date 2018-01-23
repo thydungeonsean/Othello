@@ -7,6 +7,7 @@ from game_logic import GameLogic
 from game_grid import GameGrid
 from game_board import GameBoard
 from player import Player
+from turn_manager import TurnManager
 
 
 class Game(object):
@@ -23,10 +24,9 @@ class Game(object):
         self.game_logic = GameLogic(self)
         self.game_grid = GameGrid(self)
         self.game_board = None
-        self.turn_manager = None
         self.white_player = Player(self, 'white')
         self.black_player = Player(self, 'black')
-        self.active_player = self.white_player
+        self.turn_manager = TurnManager(self)
 
     def init(self):
         pygame.init()
@@ -68,6 +68,10 @@ class Game(object):
             elif event.type == MOUSEBUTTONDOWN:
                 if self.active_player.is_human() and self.mouse_over_grid():
                     self.active_player.try_to_place_piece(self.mouse_grid_position())
+
+    @property
+    def active_player(self):
+        return self.turn_manager.active_player
 
     def mouse_over_grid(self):
         mx, my = pygame.mouse.get_pos()
