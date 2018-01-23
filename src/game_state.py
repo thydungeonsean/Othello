@@ -1,23 +1,31 @@
 import pygame
 from pygame.locals import *
+from colors import *
+from game_settings import *
+from game_board import GameBoard
 
 
 class Game(object):
 
-    FPS = 60
-
     def __init__(self):
 
+        # game state members
         self.game_running = False
         self.screen = None
         self.clock = pygame.time.Clock()
 
+        # game components
+        self.game_board = None
+
     def init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((640, 740))
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.game_running = True
 
-        self.screen.fill((100,200,100))
+        self.screen.fill(BLACK)
+
+        # initialize game components
+        self.game_board = GameBoard(self)
 
     # main game loop
     def main(self):
@@ -49,10 +57,10 @@ class Game(object):
         pass
 
     def draw_all(self):
-        pass
+        self.game_board.draw(self.screen)
 
     def update_display(self):
         pygame.display.update()
 
     def tick(self):
-        self.clock.tick(Game.FPS)
+        self.clock.tick(FPS)
