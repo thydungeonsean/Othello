@@ -1,26 +1,21 @@
 import pygame
-from game_settings import BOARD_Y_OFFSET, TILE_WIDTH
+from game_settings import *
 from colors import *
 from random import randint
 
 
 class GameBoard(object):
 
-    width = 8
-    height = 8
+    width = BOARD_WIDTH
+    height = BOARD_HEIGHT
 
-    EMPTY = 0
-    WHITE_PIECE = 1
-    BLACK_PIECE = 2
-
-    def __init__(self, state):
+    def __init__(self, state, game_grid):
 
         self.board_topleft = (0, BOARD_Y_OFFSET)
         self.tile_surface = self.initialize_tile_surface()
         self.board_surface = self.initialize_board_surface()
 
-        cls = GameBoard
-        self.grid = [[randint(0, 2) for y in range(cls.height)] for x in range(cls.width)]
+        self.grid = game_grid
 
     def initialize_tile_surface(self):
         tile = pygame.Surface((TILE_WIDTH, TILE_WIDTH)).convert()
@@ -33,8 +28,8 @@ class GameBoard(object):
         board = pygame.Surface((cls.width*TILE_WIDTH, cls.height*TILE_WIDTH)).convert()
         board.fill(BOARD_COLOR_LIGHT)
 
-        for y in range(0, GameBoard.height, 2):
-            for x in range(0, GameBoard.width):
+        for y in range(0, cls.height, 2):
+            for x in range(0, cls.width):
                 coord = (x * TILE_WIDTH, (y + x % 2)*TILE_WIDTH)
                 board.blit(self.tile_surface, coord)
 
@@ -50,9 +45,9 @@ class GameBoard(object):
 
     def draw_cell(self, surface, (x, y)):
 
-        if self.grid[x][y] == GameBoard.WHITE_PIECE:
+        if self.grid.get_cell((x, y)) == WHITE_PIECE:
             self.draw_white_piece(surface, (x, y))
-        elif self.grid[x][y] == GameBoard.BLACK_PIECE:
+        elif self.grid.get_cell((x, y)) == BLACK_PIECE:
             self.draw_black_piece(surface, (x, y))
 
     def draw_piece(self, surface, (x, y), fore_color, back_color):
