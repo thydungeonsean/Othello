@@ -38,6 +38,8 @@ class Game(object):
         # initialize game components
         self.game_board = GameBoard(self, self.game_grid)
 
+        self.game_logic.calculate_valid_moves(WHITE_PIECE)
+
     # main game loop
     def main(self):
 

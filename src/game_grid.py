@@ -16,12 +16,25 @@ class GameGrid(object):
         self.update_cell((4, 3), WHITE_PIECE)
         self.update_cell((3, 4), WHITE_PIECE)
 
+    @property
+    def all_cells(self):
+        for cell in ((x, y) for y in range(BOARD_HEIGHT) for x in range(BOARD_WIDTH)):
+            yield cell
+
     def get_cell(self, (x, y)):
         return self.grid[x][y]
 
     def update_cell(self, (x, y), cell_value):
         self.grid[x][y] = cell_value
         self.state.request_redraw()
+
+    def flip_piece(self, (x, y)):
+        if self.grid[x][y] == BLACK_PIECE:
+            self.update_cell((x, y), WHITE_PIECE)
+        elif self.grid[x][y] == WHITE_PIECE:
+            self.update_cell((x, y), BLACK_PIECE)
+        else:
+            raise Exception('trying to flip empty cell')
 
     def translate_mouse_to_grid_coord(self, (mx, my)):
         my -= BOARD_Y_OFFSET
