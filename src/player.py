@@ -21,6 +21,11 @@ class Player(object):
 
     def play_piece(self, cell):
         self.state.game_grid.update_cell(cell, self.game_piece)
+        # trigger flank
 
     def try_to_place_piece(self, cell):
-        self.play_piece(cell)
+        if self.placement_is_valid(cell):
+            self.play_piece(cell)
+
+    def placement_is_valid(self, cell):
+        return self.state.game_logic.placement_is_valid_for_color(cell, self.game_piece)

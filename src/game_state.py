@@ -3,6 +3,7 @@ from pygame.locals import *
 from colors import *
 from game_settings import *
 # game components
+from game_logic import GameLogic
 from game_grid import GameGrid
 from game_board import GameBoard
 from player import Player
@@ -19,6 +20,7 @@ class Game(object):
         self.clock = pygame.time.Clock()
 
         # game components
+        self.game_logic = GameLogic(self)
         self.game_grid = GameGrid(self)
         self.game_board = None
         self.turn_manager = None

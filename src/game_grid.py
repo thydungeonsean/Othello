@@ -7,7 +7,14 @@ class GameGrid(object):
     def __init__(self, state):
 
         self.state = state
-        self.grid = [[randint(0, 2) for y in range(BOARD_HEIGHT)] for x in range(BOARD_WIDTH)]
+        self.grid = [[EMPTY for y in range(BOARD_HEIGHT)] for x in range(BOARD_WIDTH)]
+        self.start_game_state()
+
+    def start_game_state(self):
+        self.update_cell((3, 3), BLACK_PIECE)
+        self.update_cell((4, 4), BLACK_PIECE)
+        self.update_cell((4, 3), WHITE_PIECE)
+        self.update_cell((3, 4), WHITE_PIECE)
 
     def get_cell(self, (x, y)):
         return self.grid[x][y]
@@ -22,3 +29,9 @@ class GameGrid(object):
 
     def on_grid(self, (x, y)):
         return 0 <= x < BOARD_WIDTH and 0 <= y < BOARD_HEIGHT
+
+    def get_adjacent_cells(self, (x, y)):
+
+        adj = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1),
+               (x + 1, y + 1), (x - 1, y + 1), (x + 1, y - 1), (x - 1, y - 1)]
+        return filter(lambda cell: self.on_grid(cell), adj)
