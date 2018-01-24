@@ -48,7 +48,7 @@ class Button(object):
         mx, my = pygame.mouse.get_pos()
         x, y = self.coord
 
-        return x <= mx < x + self.w, y <= my < y + self.h
+        return x <= mx < x + self.w and y <= my < y + self.h
 
     def set_active(self):
         self.active = True

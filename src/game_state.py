@@ -56,7 +56,9 @@ class Game(object):
     def initialize_buttons(self):
 
         restart_button = Button(restart_coord, 'Restart', self.restart, restart_anchor, False)
+        end_button = Button(end_coord, 'End Game', self.exit_game, end_anchor)
         self.buttons['restart'] = restart_button
+        self.buttons['end'] = end_button
 
     def initialize_players(self, white, black):
 
@@ -96,9 +98,7 @@ class Game(object):
 
             if event.type == QUIT:
                 self.exit_game()
-            elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    self.exit_game()
+                # TODO this needs to exit program, not just go back to main menu
 
             elif event.type == MOUSEBUTTONDOWN:
 
