@@ -11,6 +11,9 @@ from ai_player import AIPlayer
 from turn_manager import TurnManager
 from highlighter import Highlighter
 from logger import Logger
+from button import Button
+
+from layout import *
 
 
 class Game(object):
@@ -28,10 +31,12 @@ class Game(object):
         self.game_grid = GameGrid(self)
         self.game_board = None
         self.white_player = AIPlayer(self, 'white')
-        self.black_player = Player(self, 'black')
+        self.black_player = AIPlayer(self, 'black')
         self.turn_manager = TurnManager(self)
         self.highlighter = Highlighter(self)
         self.logger = Logger(self)
+
+        self.buttons = {}
 
     def init(self):
         pygame.init()
@@ -43,6 +48,12 @@ class Game(object):
         # initialize game components
         self.game_board = GameBoard(self, self.game_grid)
         self.highlighter.init()
+        self.initialize_buttons()
+
+    def initialize_buttons(self):
+
+        restart_button = Button(restart_coord, 'Restart', self.restart, restart_anchor, False)
+        self.buttons['restart'] = restart_button
 
     # main game loop
     def main(self):
@@ -70,8 +81,13 @@ class Game(object):
                     self.exit_game()
 
             elif event.type == MOUSEBUTTONDOWN:
+
                 if self.active_player.is_human() and self.mouse_over_grid():
                     self.active_player.try_to_place_piece(self.mouse_grid_position())
+                else:
+                    for button in self.buttons.itervalues():
+                        if button.active and button.mouse_is_over():
+                            button.on_click()
 
     @property
     def active_player(self):
@@ -99,6 +115,10 @@ class Game(object):
         self.logger.draw_scores(self.screen)
         self.logger.draw_log(self.screen)
 
+        for button in self.buttons.itervalues():
+            if button.active:
+                button.draw(self.screen)
+
     def update_display(self):
         pygame.display.update()
 
@@ -116,3 +136,17 @@ class Game(object):
 
     def white_score(self):
         return self.game_grid.get_score(WHITE_PIECE)
+
+    def activate_button(self, key):
+        self.buttons[key].set_active()
+
+    def hide_button(self, key):
+        self.buttons[key].hide()
+
+    def restart(self):
+        print 'start over'
+
+        self.game_grid.reset_state()
+        self.turn_manager.reset_state()
+        self.request_redraw()
+        self.hide_button('restart')

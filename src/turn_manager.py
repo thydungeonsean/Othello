@@ -78,3 +78,11 @@ class TurnManager(object):
             message = 'Game Over - It\'s a draw, you both lose.'
 
         self.state.logger.update_log(message)
+        self.state.activate_button('restart')
+
+    def reset_state(self):
+
+        self.active_player = self.players[BLACK_PIECE]
+        self.pass_count = 0
+        self.turn_active = False
+        self.game_running = True

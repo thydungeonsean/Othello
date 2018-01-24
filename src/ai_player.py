@@ -3,7 +3,7 @@ from random import choice
 
 class AIPlayer(Player):
 
-    DELAY = 30
+    DELAY = 3
 
     def __init__(self, state, color):
 

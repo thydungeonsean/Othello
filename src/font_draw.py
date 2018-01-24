@@ -1,5 +1,5 @@
 import pygame
-from colors import RED
+from colors import RED, BLACK, WHITE
 
 class FontDraw(object):
 
@@ -21,3 +21,23 @@ class FontDraw(object):
 
     def write_log(self, text):
         return self.log_font.render(text, True, RED)
+
+    def write_button_text(self, text):
+
+        text_image = self.log_font.render(text, True, RED, BLACK)
+        tr = text_image.get_rect()
+
+        padded_x = text_image.get_width() + 30
+        padded_y = 50
+
+        padded_image = pygame.Surface((padded_x, padded_y)).convert()
+        padded_image.fill(BLACK)
+
+        w = padded_image.get_width()
+        h = padded_image.get_height()
+
+        tr.center = w/2, h/2
+
+        padded_image.blit(text_image, tr)
+
+        return padded_image

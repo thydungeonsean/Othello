@@ -57,3 +57,8 @@ class GameGrid(object):
                 count += 1
 
         return str(count)
+
+    def reset_state(self):
+
+        self.grid = [[EMPTY for y in range(BOARD_HEIGHT)] for x in range(BOARD_WIDTH)]
+        self.start_game_state()
