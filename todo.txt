@@ -1,0 +1,6 @@
+- smarter, non random AI
+
+- play mode scene where player can:
+--- choose hotseat, or which color they want vs. ai, or ai vs. ai match
+
+

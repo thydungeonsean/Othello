@@ -18,7 +18,7 @@ from layout import *
 
 class Game(object):
 
-    def __init__(self):
+    def __init__(self, white_player='human', black_player='human'):
 
         # game state members
         self.game_running = False
@@ -30,8 +30,11 @@ class Game(object):
         self.game_logic = GameLogic(self)
         self.game_grid = GameGrid(self)
         self.game_board = None
-        self.white_player = AIPlayer(self, 'white')
-        self.black_player = AIPlayer(self, 'black')
+
+        self.white_player = None
+        self.black_player = None
+        self.initialize_players(white_player, black_player)
+
         self.turn_manager = TurnManager(self)
         self.highlighter = Highlighter(self)
         self.logger = Logger(self)
@@ -39,8 +42,8 @@ class Game(object):
         self.buttons = {}
 
     def init(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+        self.screen = pygame.display.get_surface()
         self.game_running = True
 
         self.screen.fill(BLACK)
@@ -55,6 +58,25 @@ class Game(object):
         restart_button = Button(restart_coord, 'Restart', self.restart, restart_anchor, False)
         self.buttons['restart'] = restart_button
 
+    def initialize_players(self, white, black):
+
+        players = []
+        sides = ['white', 'black']
+        constructors = []
+        for p_type in (white, black):
+            if p_type == 'human':
+                constructors.append(Player)
+            else:
+                constructors.append(AIPlayer)
+
+        for i in (0, 1):
+            players.append(
+                constructors[i](self, sides[i])
+            )
+
+        self.white_player = players[0]
+        self.black_player = players[1]
+
     # main game loop
     def main(self):
 
@@ -67,8 +89,6 @@ class Game(object):
                 self.update_display()
                 self.reset_redraw()
             self.tick()
-
-        pygame.quit()
 
     def handle_input(self):
 
@@ -144,8 +164,6 @@ class Game(object):
         self.buttons[key].hide()
 
     def restart(self):
-        print 'start over'
-
         self.game_grid.reset_state()
         self.turn_manager.reset_state()
         self.request_redraw()

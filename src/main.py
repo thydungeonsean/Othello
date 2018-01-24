@@ -1,10 +1,10 @@
 import sys
-from game_state import Game
+from game_manager import GameManager
 
 
 def main():
 
-    game = Game()
+    game = GameManager()
     game.init()
     game.main()
 
