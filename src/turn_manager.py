@@ -7,7 +7,7 @@ class TurnManager(object):
 
         self.state = state
         self.players = {WHITE_PIECE: self.state.white_player, BLACK_PIECE: self.state.black_player}
-        self.active_player = self.players[WHITE_PIECE]
+        self.active_player = self.players[BLACK_PIECE]
         self.pass_count = 0
         self.turn_active = False
         self.game_running = True
@@ -38,7 +38,6 @@ class TurnManager(object):
     def pass_if_no_moves(self):
 
         if len(self.state.game_logic.valid_moves) == 0:
-            print 'no valid_moves, %s has to pass' % self.active_player.color
             self.pass_count += 1
             self.end_turn()
         else:

@@ -7,6 +7,7 @@ from game_logic import GameLogic
 from game_grid import GameGrid
 from game_board import GameBoard
 from player import Player
+from ai_player import AIPlayer
 from turn_manager import TurnManager
 from highlighter import Highlighter
 from logger import Logger
@@ -26,7 +27,7 @@ class Game(object):
         self.game_logic = GameLogic(self)
         self.game_grid = GameGrid(self)
         self.game_board = None
-        self.white_player = Player(self, 'white')
+        self.white_player = AIPlayer(self, 'white')
         self.black_player = Player(self, 'black')
         self.turn_manager = TurnManager(self)
         self.highlighter = Highlighter(self)
@@ -89,6 +90,8 @@ class Game(object):
 
     def run_logic(self):
         self.turn_manager.run()
+        if not self.active_player.is_human() and self.turn_manager.game_running:
+            self.active_player.run_logic()
 
     def draw_all(self):
         self.game_board.draw(self.screen)
