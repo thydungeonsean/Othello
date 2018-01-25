@@ -22,12 +22,15 @@ class FontDraw(object):
     def write_log(self, text):
         return self.log_font.render(text, True, RED)
 
-    def write_button_text(self, text):
+    def write_button_text(self, text, force_w=False):
 
         text_image = self.log_font.render(text, True, RED, BLACK)
         tr = text_image.get_rect()
 
-        padded_x = text_image.get_width() + 30
+        if not force_w:
+            padded_x = text_image.get_width() + 30
+        else:
+            padded_x = force_w
         padded_y = 50
 
         padded_image = pygame.Surface((padded_x, padded_y)).convert()
