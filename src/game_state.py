@@ -18,9 +18,10 @@ from layout import *
 
 class Game(object):
 
-    def __init__(self, white_player='human', black_player='human'):
+    def __init__(self, manager, white_player='human', black_player='human'):
 
         # game state members
+        self.game_manager = manager
         self.game_running = False
         self.needs_redraw = True
         self.screen = None
@@ -97,8 +98,7 @@ class Game(object):
         for event in pygame.event.get():
 
             if event.type == QUIT:
-                self.exit_game()
-                # TODO this needs to exit program, not just go back to main menu
+                self.exit_program()
 
             elif event.type == MOUSEBUTTONDOWN:
 
@@ -123,6 +123,11 @@ class Game(object):
 
     def exit_game(self):
         self.game_running = False
+
+    def exit_program(self):
+        self.game_running = False
+        self.game_manager.exit_game()
+        print 'here'
 
     def run_logic(self):
         self.turn_manager.run()

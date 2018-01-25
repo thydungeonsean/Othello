@@ -49,7 +49,7 @@ class GameManager(object):
         self.toggles['white'] = white_toggle
 
     def start_new_game(self):
-        self.game = Game(white_player=self.players['white'], black_player=self.players['black'])
+        self.game = Game(self, white_player=self.players['white'], black_player=self.players['black'])
         self.game.init()
         self.game.main()
         self.needs_redraw = True
